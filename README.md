@@ -76,7 +76,7 @@ L'API est disponible sur `http://localhost:8000/api`.
 |---|---|---|
 | Admin | admin@user.com | 987654 |
 
-> Pour le collecteur nous nous l’avons directement créer depuis le teste de l’API et non en dure.
+> Pour le collecteur nous nous l’avons directement créer depuis le test de l’API et non en dure.
 
 ## Documentation de l'API
 
