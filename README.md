@@ -75,7 +75,8 @@ L'API est disponible sur `http://localhost:8000/api`.
 | Rôle | Email | Mot de passe |
 |---|---|---|
 | Admin | admin@user.com | 987654 |
-| Collecteur | <collecteur@user.com> | <mot_de_passe> |
+
+> Pour le collecteur nous nl’avons directement créer depuis le teste de l’API et non en dure.
 
 ## Documentation de l'API
 
