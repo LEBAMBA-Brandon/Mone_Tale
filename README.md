@@ -1,58 +1,131 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# UrbaSign — API REST
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API de signalement des problèmes urbains (voirie, ordures, éclairage public, caniveaux…) à Libreville.
+Elle centralise les signalements envoyés par l'application de collecte (position GPS, photo, catégorie, gravité)
+et les renvoie, filtrés, à l'application de consultation qui les affiche sur une carte.
 
-## About Laravel
+Projet de 2e année informatique — BI-TECH Services.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Technologies
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Élément | Choix |
+|---|---|
+| Framework | Laravel 13 (PHP 8.3) |
+| Base de données | PostgreSQL |
+| Authentification | Laravel Sanctum (token Bearer) |
+| Documentation | Swagger (généré par Scramble) + collection Postman |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Prérequis
 
-## Learning Laravel
+- PHP 8.3 ou plus
+- Composer
+- PostgreSQL
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Installation
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Cloner la branche de l'API :
+   ```bash
+   git clone -b api-laravel https://github.com/LEBAMBA-Brandon/UrbaSign.git
+   cd UrbaSign
+   ```
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+2. Installer les dépendances :
+   ```bash
+   composer install
+   ```
 
-## Agentic Development
+3. Créer le fichier de configuration :
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+4. Créer une base PostgreSQL vide nommée `urbasign`, puis renseigner ses accès dans `.env` :
+   ```env
+   DB_CONNECTION=pgsql
+   DB_HOST=127.0.0.1
+   DB_PORT=5432
+   DB_DATABASE=urbasign
+   DB_USERNAME=<usernme de votre base de donnée>
+   DB_PASSWORD=<votre mot de passe>
+   ```
 
-```bash
-composer require laravel/boost --dev
+5. Créer les tables et les données de test (communes, arrondissements, quartiers de Libreville, compte admin, 30 signalements) :
+   ```bash
+   php artisan migrate --seed
+   ```
 
-php artisan boost:install
+6. Rendre les photos accessibles publiquement :
+   ```bash
+   php artisan storage:link
+   ```
+
+7. Lancer le serveur :
+   ```bash
+   php artisan serve --host=0.0.0.0 --port=8000
+   ```
+
+L'API est disponible sur `http://localhost:8000/api`.
+
+> **Tester depuis un téléphone :** le téléphone et le PC doivent être sur le même Wi-Fi.
+> Dans les applications, utilisez l'adresse IP du PC (ex : `http://192.168.1.10:8000/api`) au lieu de `localhost`.
+
+## Comptes de test
+
+| Rôle | Email | Mot de passe |
+|---|---|---|
+| Admin | admin@user.com | 987654 |
+| Collecteur | <collecteur@user.com> | <mot_de_passe> |
+
+## Documentation de l'API
+
+- **Swagger** : `http://localhost:8000/docs/api` (serveur lancé, `APP_ENV=local`)
+- **Postman** : importer `docs/api-laravel-urbasign.postman_collection.json`
+  1. Lancer la requête `se_connecter` : le token est enregistré automatiquement.
+  2. Toutes les autres requêtes l'utilisent ensuite.
+
+## Authentification
+
+`POST /api/auth/login` renvoie un token. Il doit être envoyé dans l'en-tête de chaque requête protégée :
+
+```
+Authorization: Bearer <token>
+Accept: application/json
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Endpoints
 
-## Contributing
+| Méthode | Route | Rôle | Accès |
+|---|---|---|---|
+| POST | `/api/auth/login` | Connexion, renvoie un token | Public |
+| GET | `/api/auth/me` | Utilisateur connecté | Connecté |
+| POST | `/api/auth/logout` | Déconnexion | Connecté |
+| GET | `/api/signalements` | Liste filtrable | Public |
+| GET | `/api/signalements/{id}` | Détail d'un signalement | Public |
+| POST | `/api/signalements` | Créer un signalement avec photo (form-data) | Connecté |
+| GET | `/api/signalements/mes-signalements` | Signalements de l'utilisateur connecté | Connecté |
+| PATCH | `/api/signalements/{id}/statut` | Changer le statut | Admin |
+| DELETE | `/api/signalements/{id}` | Supprimer un signalement | Admin |
+| GET | `/api/communes`, `/api/arrondissements`, `/api/quartiers` (+ `/{id}`) | Listes et détails | Public |
+| POST / PUT / DELETE | `/api/communes`, `/api/arrondissements`, `/api/quartiers` | Gestion | Admin |
+| GET / POST / PUT / DELETE | `/api/users` | Gestion des utilisateurs | Admin |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Filtres de `GET /api/signalements`
 
-## Code of Conduct
+Tous facultatifs et combinables :
+`categorie`, `statut`, `gravite`, `quartier_id`, `date_debut`, `date_fin` (format `AAAA-MM-JJ`)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Exemple : `/api/signalements?categorie=Voirie&statut=Signalé&date_debut=2026-10-01`
 
-## Security Vulnerabilities
+### Valeurs autorisées
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Champ | Valeurs |
+|---|---|
+| categorie | Voirie, Ordures, Éclairage public, Caniveau/Inondation, Autre |
+| gravite | Faible, Moyenne, Critique |
+| statut | Signalé, En cours, Résolu |
+| photo | JPEG ou PNG, 1 Mo maximum |
 
-## License
+## Auteur
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+LEBAMBA BIKECK Brandon
