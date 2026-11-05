@@ -20,16 +20,17 @@ class QuartierSeeder extends Seeder
             '3e' => ['Louis', 'Lalala'],
             '4e' => ['Akébé', 'Abilé'],
         ];
-        
-        foreach($parArrondissement as $nomArrondissement => $quartiers){
+
+        foreach ($parArrondissement as $nomArrondissement => $quartiers) {
             $arrondissement = Arrondissement::where('nom_arrondissement', $nomArrondissement)->firstOrFail();
 
-            foreach($quartiers as $nomQuartier){
+            foreach ($quartiers as $nomQuartier) {
                 Quartier::firstOrCreate([
                     'nom_quartier' => $nomQuartier,
                     'arrondissement_id' => $arrondissement->id,
                 ]);
             }
         }
+        // Les coordonnées sont ajoutées ensuite par GeocodageQuartierSeeder.
     }
 }

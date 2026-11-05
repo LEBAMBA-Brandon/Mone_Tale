@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quartier;
+use App\Models\Arrondissement;
+use App\Services\GeocodageService;
 
 class QuartierController extends Controller
 {
@@ -27,15 +29,27 @@ class QuartierController extends Controller
 
     /**
      * Ajouter un quartier
-     * 
-     * Ajout d’un quartier
-    */
-    public function store(Request $request)
+     *
+     * Si la latitude et la longitude ne sont pas fournies, elles sont
+     * trouvées automatiquement sur OpenStreetMap à partir du nom.
+     */
+    public function store(Request $request, GeocodageService $geocodage)
     {
         $data = $request->validate([
             'nom_quartier'      => ['required', 'string', 'max:100'],
             'arrondissement_id' => ['required', 'integer', 'exists:arrondissements,id'],
+            'latitude'          => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude'         => ['nullable', 'numeric', 'between:-180,180'],
         ]);
+
+        if (! isset($data['latitude'], $data['longitude'])) {
+            $commune = Arrondissement::with('commune')
+                ->find($data['arrondissement_id'])
+                ?->commune?->nom_commune ?? 'Libreville';
+
+            // += : n'ajoute latitude/longitude que si le géocodage a trouvé quelque chose.
+            $data += $geocodage->trouverQuartier($data['nom_quartier'], $commune) ?? [];
+        }
 
         return response()->json(Quartier::create($data), 201);
     }
@@ -61,6 +75,8 @@ class QuartierController extends Controller
         $data = $request->validate([
             'nom_quartier'      => ['sometimes', 'required', 'string', 'max:100'],
             'arrondissement_id' => ['sometimes', 'required', 'integer', 'exists:arrondissements,id'],
+            'latitude'  => ['sometimes', 'nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['sometimes', 'nullable', 'numeric', 'between:-180,180'],
         ]);
 
         $quartier->update($data);

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             CommuneSeeder::class,
             ArrondissementSeeder::class,
             QuartierSeeder::class,
+            GeocodageQuartierSeeder::class, // ← AVANT les signalements
         ]);
 
         // User::factory(10)->create();
