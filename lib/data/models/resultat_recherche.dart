@@ -1,6 +1,6 @@
-import 'package:urbasign/data/models/coordonnees.dart';
-import 'package:urbasign/data/models/quartier.dart';
-import 'package:urbasign/data/models/signalement.dart';
+import 'package:mono/data/models/coordonnees.dart';
+import 'package:mono/data/models/quartier.dart';
+import 'package:mono/data/models/signalement.dart';
 
 /// Un résultat de la barre de recherche (comme les suggestions de Google Maps).
 ///

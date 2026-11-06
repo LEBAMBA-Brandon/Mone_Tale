@@ -1,7 +1,7 @@
-import 'package:urbasign/data/models/categorie.dart';
-import 'package:urbasign/data/models/gravite.dart';
-import 'package:urbasign/data/models/signalement.dart';
-import 'package:urbasign/data/models/statut.dart';
+import 'package:mono/data/models/categorie.dart';
+import 'package:mono/data/models/gravite.dart';
+import 'package:mono/data/models/signalement.dart';
+import 'package:mono/data/models/statut.dart';
 
 /// Les filtres de `GET /api/signalements`.
 ///
@@ -63,15 +63,17 @@ class SignalementFiltre {
     if (categorie != null && signalement.categorie != categorie) return false;
     if (statut != null && signalement.statut != statut) return false;
     if (gravite != null && signalement.gravite != gravite) return false;
-    if (quartierId != null && signalement.quartierId != quartierId)
+    if (quartierId != null && signalement.quartierId != quartierId) {
       return false;
+    }
 
     if (dateDebut != null || dateFin != null) {
       final date = signalement.dateCreation;
       if (date == null) return false;
       final jour = _jourSeul(date);
-      if (dateDebut != null && jour.isBefore(_jourSeul(dateDebut!)))
+      if (dateDebut != null && jour.isBefore(_jourSeul(dateDebut!))) {
         return false;
+      }
       if (dateFin != null && jour.isAfter(_jourSeul(dateFin!))) return false;
     }
     return true;

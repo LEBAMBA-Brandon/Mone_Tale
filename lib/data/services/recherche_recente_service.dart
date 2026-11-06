@@ -10,7 +10,7 @@ class RechercheRecenteService {
   RechercheRecenteService({this.nombreMax = 8});
 
   /// Clé sous laquelle la liste est rangée dans le téléphone.
-  static const String _cle = 'urbasign.recherches_recentes';
+  static const String _cle = 'mono.recherches_recentes';
 
   /// Nombre maximum de recherches gardées (les plus anciennes sont supprimées).
   final int nombreMax;

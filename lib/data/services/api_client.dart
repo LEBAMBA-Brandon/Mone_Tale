@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:urbasign/data/models/json_parser.dart';
-import 'package:urbasign/data/services/api_config.dart';
-import 'package:urbasign/data/services/api_exception.dart';
-import 'package:urbasign/data/services/jeton_annulation.dart';
+import 'package:mono/data/models/json_parser.dart';
+import 'package:mono/data/services/api_config.dart';
+import 'package:mono/data/services/api_exception.dart';
+import 'package:mono/data/services/jeton_annulation.dart';
 
 /// Client HTTP unique de l'application (un "emballage" autour de dio).
 ///

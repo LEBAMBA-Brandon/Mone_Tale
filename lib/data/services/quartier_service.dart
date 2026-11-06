@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:urbasign/data/models/quartier.dart';
-import 'package:urbasign/data/services/api_client.dart';
-import 'package:urbasign/data/services/api_config.dart';
+import 'package:mono/data/models/quartier.dart';
+import 'package:mono/data/services/api_client.dart';
+import 'package:mono/data/services/api_config.dart';
 
 /// Appels à l'API concernant les quartiers.
 /// Sert à la recherche ("Nzeng-Ayong") et, plus tard, au filtre par quartier.

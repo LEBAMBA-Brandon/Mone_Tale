@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:urbasign/data/models/signalement.dart';
-import 'package:urbasign/data/models/signalement_filtre.dart';
-import 'package:urbasign/data/services/api_client.dart';
-import 'package:urbasign/data/services/api_config.dart';
-import 'package:urbasign/data/services/api_exception.dart';
-import 'package:urbasign/data/services/jeton_annulation.dart';
+import 'package:mono/data/models/signalement.dart';
+import 'package:mono/data/models/signalement_filtre.dart';
+import 'package:mono/data/services/api_client.dart';
+import 'package:mono/data/services/api_config.dart';
+import 'package:mono/data/services/api_exception.dart';
+import 'package:mono/data/services/jeton_annulation.dart';
 
 /// Appels à l'API concernant les signalements (lecture seule pour le visiteur).
 ///

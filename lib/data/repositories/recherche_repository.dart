@@ -1,11 +1,11 @@
-import 'package:urbasign/data/models/coordonnees.dart';
-import 'package:urbasign/data/models/quartier.dart';
-import 'package:urbasign/data/models/resultat_recherche.dart';
-import 'package:urbasign/data/models/signalement.dart';
-import 'package:urbasign/data/repositories/quartier_repository.dart';
-import 'package:urbasign/data/repositories/signalement_repository.dart';
-import 'package:urbasign/data/services/api_exception.dart';
-import 'package:urbasign/data/services/recherche_recente_service.dart';
+import 'package:mono/data/models/coordonnees.dart';
+import 'package:mono/data/models/quartier.dart';
+import 'package:mono/data/models/resultat_recherche.dart';
+import 'package:mono/data/models/signalement.dart';
+import 'package:mono/data/repositories/quartier_repository.dart';
+import 'package:mono/data/repositories/signalement_repository.dart';
+import 'package:mono/data/services/api_exception.dart';
+import 'package:mono/data/services/recherche_recente_service.dart';
 
 /// Tout ce qui concerne la barre de recherche "façon Google Maps" :
 /// les suggestions ET l'historique des recherches récentes.
@@ -21,12 +21,10 @@ import 'package:urbasign/data/services/recherche_recente_service.dart';
 /// - "trou glass" → les signalements contenant "trou" ET situés à Glass
 class RechercheRepository {
   RechercheRepository({
-    required SignalementRepository signalementRepository,
-    required QuartierRepository quartierRepository,
-    required RechercheRecenteService rechercheRecenteService,
-  }) : _signalementRepository = signalementRepository,
-       _quartierRepository = quartierRepository,
-       _rechercheRecenteService = rechercheRecenteService;
+    required this._signalementRepository,
+    required this._quartierRepository,
+    required this._rechercheRecenteService,
+  });
 
   final SignalementRepository _signalementRepository;
   final QuartierRepository _quartierRepository;
@@ -160,7 +158,12 @@ class RechercheRepository {
     return ResultatQuartier(
       quartier: quartier,
       nombreSignalements: duQuartier.length,
-      centre: Coordonnees.centreDe(duQuartier.map((s) => s.coordonnees)),
+
+      // 1er choix : le vrai centre du quartier (fourni par l'API).
+      // Sinon : la moyenne de ses signalements.
+      centre:
+          quartier.centre ??
+          Coordonnees.centreDe(duQuartier.map((s) => s.coordonnees)),
     );
   }
 

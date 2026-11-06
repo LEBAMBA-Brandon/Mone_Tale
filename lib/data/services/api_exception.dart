@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:urbasign/data/models/json_parser.dart';
+import 'package:mono/data/models/json_parser.dart';
 
 /// Les différentes sortes d'erreurs possibles avec l'API.
 /// Au J2/J3, l'interface choisira l'icône et le bouton selon le type

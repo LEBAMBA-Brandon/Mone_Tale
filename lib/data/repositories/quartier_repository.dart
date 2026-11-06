@@ -1,5 +1,5 @@
-import 'package:urbasign/data/models/quartier.dart';
-import 'package:urbasign/data/services/quartier_service.dart';
+import 'package:mono/data/models/quartier.dart';
+import 'package:mono/data/services/quartier_service.dart';
 
 /// Point d'accès unique aux quartiers.
 ///

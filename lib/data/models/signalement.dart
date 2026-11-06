@@ -1,10 +1,10 @@
-import 'package:urbasign/data/models/auteur.dart';
-import 'package:urbasign/data/models/categorie.dart';
-import 'package:urbasign/data/models/coordonnees.dart';
-import 'package:urbasign/data/models/gravite.dart';
-import 'package:urbasign/data/models/json_parser.dart';
-import 'package:urbasign/data/models/quartier.dart';
-import 'package:urbasign/data/models/statut.dart';
+import 'package:mono/data/models/auteur.dart';
+import 'package:mono/data/models/categorie.dart';
+import 'package:mono/data/models/coordonnees.dart';
+import 'package:mono/data/models/gravite.dart';
+import 'package:mono/data/models/json_parser.dart';
+import 'package:mono/data/models/quartier.dart';
+import 'package:mono/data/models/statut.dart';
 
 /// Un signalement de problème urbain, tel que renvoyé par l'API.
 ///

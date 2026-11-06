@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:urbasign/data/models/coordonnees.dart';
-import 'package:urbasign/data/models/preference_theme.dart';
+import 'package:mono/data/models/coordonnees.dart';
+import 'package:mono/data/models/preference_theme.dart';
 
 /// Petits réglages de l'app enregistrés avec **GetStorage**.
 ///
@@ -16,9 +16,9 @@ class StockageLocalService {
 
   final GetStorage _boite;
 
-  static const String _cleTheme = 'urbasign.theme';
-  static const String _cleLatitude = 'urbasign.derniere_latitude';
-  static const String _cleLongitude = 'urbasign.derniere_longitude';
+  static const String _cleTheme = 'mono.theme';
+  static const String _cleLatitude = 'mono.derniere_latitude';
+  static const String _cleLongitude = 'mono.derniere_longitude';
 
   /// À appeler UNE seule fois au démarrage, avant runApp().
   static Future<void> initialiser() async {

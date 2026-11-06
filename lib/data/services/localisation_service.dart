@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:urbasign/data/models/coordonnees.dart';
+import 'package:mono/data/models/coordonnees.dart';
 
 /// Les raisons pour lesquelles on peut ne pas obtenir la position.
 enum TypeErreurLocalisation {
@@ -78,6 +78,20 @@ class LocalisationService {
         TypeErreurLocalisation.inconnue,
         "Votre position n'a pas pu être déterminée.",
       );
+    }
+  }
+
+  /// `true` si la permission est DÉJÀ accordée et le GPS allumé.
+  /// Ne demande RIEN à l'utilisateur (aucune fenêtre ne s'affiche).
+  /// Sert à afficher le point bleu au démarrage sans déranger.
+  Future<bool> estDejaAutorise() async {
+    try {
+      if (!await Geolocator.isLocationServiceEnabled()) return false;
+      final permission = await Geolocator.checkPermission();
+      return permission == LocationPermission.whileInUse ||
+          permission == LocationPermission.always;
+    } catch (_) {
+      return false;
     }
   }
 

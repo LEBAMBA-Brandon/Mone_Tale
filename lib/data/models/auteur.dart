@@ -1,4 +1,4 @@
-import 'package:urbasign/data/models/json_parser.dart';
+import 'package:mono/data/models/json_parser.dart';
 
 /// L'auteur (collecteur) d'un signalement.
 /// L'API ne renvoie volontairement que l'id, le nom et le prénom (pas l'email).

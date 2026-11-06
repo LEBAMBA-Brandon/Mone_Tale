@@ -1,8 +1,8 @@
-import 'package:urbasign/data/models/signalement.dart';
-import 'package:urbasign/data/models/signalement_filtre.dart';
-import 'package:urbasign/data/services/api_exception.dart';
-import 'package:urbasign/data/services/jeton_annulation.dart';
-import 'package:urbasign/data/services/signalement_service.dart';
+import 'package:mono/data/models/signalement.dart';
+import 'package:mono/data/models/signalement_filtre.dart';
+import 'package:mono/data/services/api_exception.dart';
+import 'package:mono/data/services/jeton_annulation.dart';
+import 'package:mono/data/services/signalement_service.dart';
 
 /// Point d'accès unique aux signalements pour le reste de l'app.
 ///
