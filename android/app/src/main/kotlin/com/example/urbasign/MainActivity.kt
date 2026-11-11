@@ -1,4 +1,4 @@
-package com.example.urbasign
+package com.example.mono
 
 import io.flutter.embedding.android.FlutterActivity
 
