@@ -67,6 +67,13 @@ class UserController extends Controller
 
         $user->update($data);
 
+        // Mot de passe changé par l'admin : les anciens tokens du collecteur
+        // sont supprimés → il est déconnecté de tous ses téléphones et doit
+        // se reconnecter avec le nouveau mot de passe.
+        if (array_key_exists('password', $data)) {
+            $user->tokens()->delete();
+        }
+
         return response()->json($user);
     }
 
