@@ -30,7 +30,7 @@ class CouleursTala extends ThemeExtension<CouleursTala> {
   static const CouleursTala clair = CouleursTala(
     barre: AppCouleurs.jauneFonce,
     surBarre: AppCouleurs.texteSurJaune,
-    succes: AppCouleurs.vertFonce,
+    succes: AppCouleurs.jauneFonce,
     surSucces: AppCouleurs.blanc,
     avertissement: Color(0xFFB45309),
     surAvertissement: AppCouleurs.blanc,
@@ -42,9 +42,9 @@ class CouleursTala extends ThemeExtension<CouleursTala> {
 
   /// Version thème sombre (couleurs claires).
   static const CouleursTala sombre = CouleursTala(
-    barre: AppCouleurs.jauneClair,
+    barre: AppCouleurs.vertClair,
     surBarre: AppCouleurs.texteSurJaune,
-    succes: AppCouleurs.vertClair,
+    succes: AppCouleurs.jauneClair,
     surSucces: AppCouleurs.surVertClair,
     avertissement: Color(0xFFFFB74D),
     surAvertissement: AppCouleurs.texteSurJaune,

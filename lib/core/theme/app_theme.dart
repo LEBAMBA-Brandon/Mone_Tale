@@ -34,10 +34,10 @@ abstract final class AppTheme {
 
   static const ColorScheme _schemaClair = ColorScheme(
     brightness: Brightness.light,
-    primary: AppCouleurs.vertFonce,
+    primary: AppCouleurs.jauneFonce,
     onPrimary: AppCouleurs.blanc,
-    primaryContainer: AppCouleurs.vertFonceConteneur,
-    onPrimaryContainer: AppCouleurs.surVertFonceConteneur,
+    primaryContainer: AppCouleurs.jauneFonceConteneur,
+    onPrimaryContainer: AppCouleurs.surJauneFonceConteneur,
     secondary: AppCouleurs.jauneFonce,
     onSecondary: AppCouleurs.texteSurJaune,
     secondaryContainer: AppCouleurs.jauneFonceConteneur,
@@ -71,7 +71,7 @@ abstract final class AppTheme {
     onPrimary: AppCouleurs.surVertClair,
     primaryContainer: AppCouleurs.vertClairConteneur,
     onPrimaryContainer: AppCouleurs.vertFonceConteneur,
-    secondary: AppCouleurs.jauneClair,
+    secondary: AppCouleurs.vertClair,
     onSecondary: AppCouleurs.texteSurJaune,
     secondaryContainer: AppCouleurs.jauneClairConteneur,
     onSecondaryContainer: AppCouleurs.jauneFonceConteneur,
@@ -105,6 +105,9 @@ abstract final class AppTheme {
     required Color fond,
   }) {
     final base = ThemeData(useMaterial3: true, colorScheme: schema);
+
+    // true quand on construit AppTheme.sombre, false pour AppTheme.clair.
+    final estSombre = schema.brightness == Brightness.dark;
 
     final textes = base.textTheme.copyWith(
       headlineSmall: base.textTheme.headlineSmall?.copyWith(
@@ -163,13 +166,15 @@ abstract final class AppTheme {
       // bien visible sur le jaune dans les 2 thèmes.
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: couleurs.barre,
-        indicatorColor: AppCouleurs.vertFonce,
+        indicatorColor: estSombre
+            ? AppCouleurs.vertFonce
+            : AppCouleurs.surVertClair,
         height: 68,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         iconTheme: WidgetStateProperty.resolveWith(
           (etats) => IconThemeData(
             color: etats.contains(WidgetState.selected)
-                ? AppCouleurs.blanc
+                ? (estSombre ? AppCouleurs.noir : AppCouleurs.blanc)
                 : couleurs.surBarre,
           ),
         ),
@@ -180,6 +185,25 @@ abstract final class AppTheme {
                 ? FontWeight.w700
                 : FontWeight.w500,
           ),
+        ),
+      ),
+
+      // Sur ordinateur / grand écran, la barre passe sur le CÔTÉ gauche
+      // (NavigationRail) : même jaune, même indicateur vert.
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: couleurs.barre,
+        indicatorColor: estSombre
+            ? AppCouleurs.vertFonce
+            : AppCouleurs.surVertClair,
+        selectedIconTheme: const IconThemeData(color: AppCouleurs.blanc),
+        unselectedIconTheme: IconThemeData(color: couleurs.surBarre),
+        selectedLabelTextStyle: textes.labelLarge?.copyWith(
+          color: couleurs.surBarre,
+          fontWeight: FontWeight.w700,
+        ),
+        unselectedLabelTextStyle: textes.labelLarge?.copyWith(
+          color: couleurs.surBarre,
+          fontWeight: FontWeight.w500,
         ),
       ),
 

@@ -38,8 +38,7 @@ class PhotoService {
 
   /// Ouvre l'appareil photo (caméra arrière).
   /// Renvoie `null` si l'utilisateur annule (ce n'est pas une erreur).
-  Future<PhotoSignalement?> prendrePhoto() =>
-      _choisir(ImageSource.camera);
+  Future<PhotoSignalement?> prendrePhoto() => _choisir(ImageSource.camera);
 
   /// Choisit une photo dans la galerie.
   /// Pratique sur l'émulateur, qui n'a pas de vraie caméra.
@@ -56,7 +55,7 @@ class PhotoService {
       final reponse = await _picker.retrieveLostData();
       final fichier = reponse.file;
       if (reponse.isEmpty || fichier == null) return null;
-      return _versPhoto(fichier);
+      return await _versPhoto(fichier);
     } catch (erreur) {
       debugPrint('Récupération de photo impossible : $erreur');
       return null;

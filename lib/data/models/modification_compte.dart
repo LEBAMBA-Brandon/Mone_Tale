@@ -29,18 +29,11 @@ class ModificationCompte {
     final email = this.email;
     final motDePasse = this.motDePasse;
     return {
-      if (nom != null)
-        if (ReglesCompte.verifierNom(nom, 'Nom') case final erreur?)
-          'nom': erreur,
-      if (prenom != null)
-        if (ReglesCompte.verifierNom(prenom, 'Prénom') case final erreur?)
-          'prenom': erreur,
-      if (email != null)
-        if (ReglesCompte.verifierEmail(email) case final erreur?)
-          'email': erreur,
+      if (nom != null) 'nom': ?ReglesCompte.verifierNom(nom, 'Nom'),
+      if (prenom != null) 'prenom': ?ReglesCompte.verifierNom(prenom, 'Prénom'),
+      if (email != null) 'email': ?ReglesCompte.verifierEmail(email),
       if (motDePasse != null)
-        if (ReglesCompte.verifierMotDePasse(motDePasse) case final erreur?)
-          'password': erreur,
+        'password': ?ReglesCompte.verifierMotDePasse(motDePasse),
     };
   }
 

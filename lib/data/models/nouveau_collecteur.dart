@@ -53,12 +53,11 @@ class NouveauCollecteur {
 
   /// `champ → message`. Map vide = prêt à envoyer.
   Map<String, String> valider() => {
-    if (ReglesCompte.verifierNom(nom, 'Nom') case final erreur?) 'nom': erreur,
-    if (ReglesCompte.verifierNom(prenom, 'Prénom') case final erreur?)
-      'prenom': erreur,
-    if (ReglesCompte.verifierEmail(email) case final erreur?) 'email': erreur,
-    if (ReglesCompte.verifierMotDePasse(motDePasse) case final erreur?)
-      'password': erreur,
+    // `'nom': ?valeur` : l'entrée n'est ajoutée QUE si valeur n'est pas null.
+    'nom': ?ReglesCompte.verifierNom(nom, 'Nom'),
+    'prenom': ?ReglesCompte.verifierNom(prenom, 'Prénom'),
+    'email': ?ReglesCompte.verifierEmail(email),
+    'password': ?ReglesCompte.verifierMotDePasse(motDePasse),
   };
 
   /// Corps JSON de `POST /api/users`.

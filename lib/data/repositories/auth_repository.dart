@@ -64,7 +64,8 @@ class AuthRepository {
 
   /// Enregistre une fonction de nettoyage (appelée à chaque déconnexion
   /// et avant chaque nouvelle connexion).
-  void ajouterNettoyage(void Function() nettoyage) => _nettoyages.add(nettoyage);
+  void ajouterNettoyage(void Function() nettoyage) =>
+      _nettoyages.add(nettoyage);
 
   // ---------- Connexion / déconnexion ----------
 
@@ -79,8 +80,7 @@ class AuthRepository {
   }) async {
     final emailPropre = email.trim().toLowerCase();
     final erreurs = {
-      if (ReglesCompte.verifierEmail(emailPropre) case final erreur?)
-        'email': erreur,
+      'email': ?ReglesCompte.verifierEmail(emailPropre),
       if (motDePasse.isEmpty) 'password': 'Mot de passe obligatoire.',
     };
     if (erreurs.isNotEmpty) throw ApiException.validationLocale(erreurs);

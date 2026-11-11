@@ -34,6 +34,21 @@ abstract final class AppFormats {
     return '${nom[0].toUpperCase()}${nom.substring(1)} ${date.year}';
   }
 
+  /// Masque un e-mail pour l'affichage : "admin@user.com" → "a***n@user.com".
+  ///
+  /// Un e-mail est une donnée personnelle : on ne l'affiche jamais en
+  /// entier (quelqu'un peut regarder l'écran par-dessus l'épaule, ou une
+  /// capture d'écran peut circuler). On garde la 1re et la dernière lettre
+  /// pour que la personne reconnaisse SON adresse, et le domaine.
+  static String emailMasque(String email) {
+    final arobase = email.indexOf('@');
+    if (arobase <= 0) return '***'; // pas un e-mail valide
+    final nom = email.substring(0, arobase);
+    final domaine = email.substring(arobase); // "@user.com"
+    if (nom.length <= 2) return '${nom[0]}***$domaine';
+    return '${nom[0]}***${nom[nom.length - 1]}$domaine';
+  }
+
   /// Accorde un mot avec un nombre, à la française :
   /// 0 signalement, 1 signalement, 12 signalements.
   /// (En français, 0 s'écrit au singulier.)

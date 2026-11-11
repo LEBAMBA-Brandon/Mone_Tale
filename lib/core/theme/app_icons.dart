@@ -8,8 +8,8 @@ import 'package:tala/data/models/statut.dart';
 /// "Ajouter", on la change ici et toute l'app suit.
 abstract final class AppIcons {
   // ---------- Barre de navigation ----------
-  // Collecteur : ⚠️ Mes signalements · ➕ Ajouter · 👤 Compte
-  // Admin      : ⚠️ Signalements · 👤+ Ajouter · 👥 Collecteurs · 👤 Compte
+  // Collecteur : ⚠️ Mes signalements · ➕ Ajouter · 👤 Profil
+  // Admin      : ⚠️ Signalements · 👤+ Ajouter · 👥 Collecteurs · 👤 Profil
   // (version "outlined" = onglet inactif, version pleine = onglet actif)
   static const IconData signalements = Icons.warning_amber_rounded;
   static const IconData signalementsActif = Icons.warning_rounded;
@@ -19,8 +19,8 @@ abstract final class AppIcons {
   static const IconData ajouterCollecteurActif = Icons.person_add_alt_1;
   static const IconData collecteurs = Icons.groups_outlined;
   static const IconData collecteursActif = Icons.groups;
-  static const IconData compte = Icons.person_outline;
-  static const IconData compteActif = Icons.person;
+  static const IconData profil = Icons.person_outline;
+  static const IconData profilActif = Icons.person;
 
   // ---------- Formulaires ----------
   static const IconData email = Icons.alternate_email;
@@ -45,6 +45,13 @@ abstract final class AppIcons {
   static const IconData themeSombre = Icons.dark_mode_outlined;
   static const IconData themeSysteme = Icons.brightness_auto_outlined;
   static const IconData suivant = Icons.chevron_right;
+
+  // ---------- Profil ----------
+  static const IconData notifications = Icons.notifications_outlined;
+  static const IconData aide = Icons.help_outline;
+  static const IconData conditions = Icons.gavel_outlined;
+  static const IconData confidentialite = Icons.privacy_tip_outlined;
+  static const IconData partager = Icons.share_outlined;
 
   // ---------- Infos ----------
   static const IconData date = Icons.event_outlined;

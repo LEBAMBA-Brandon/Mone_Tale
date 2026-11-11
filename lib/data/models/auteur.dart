@@ -17,15 +17,13 @@ class Auteur {
   final String nom;
   final String prenom;
 
-  /// "Nom Prénom" (le nom d'abord), ou "Auteur inconnu" si les deux
-  /// sont vides.
+  /// "Prénom Nom", ou "Auteur inconnu" si les deux sont vides.
   String get nomEtPrenom {
-    final texte = '$nom $prenom'.trim();
-    return texte.isEmpty ? 'Auteur inconnu' : texte;
+    final complet = '$nom $prenom'.trim();
+    return complet.isEmpty ? 'Auteur inconnu' : complet;
   }
 
-  /// Initiales pour un avatar, dans le même ordre (ex : "MJ"),
-  /// ou "?" si inconnu.
+  /// Initiales pour un avatar (ex : "JM"), ou "?" si inconnu.
   String get initiales {
     final lettres = [
       nom,

@@ -41,13 +41,17 @@ class NouveauSignalement {
   /// pour une erreur évidente). Renvoie `champ → message`.
   /// Map vide = tout est bon.
   Map<String, String> valider() => {
-    if (_erreurPhoto() case final erreur?) 'photo': erreur,
-    if (_erreurPosition() case final erreur?) 'latitude': erreur,
+    'photo': ?_erreurPhoto(),
+    'latitude': ?_erreurPosition(),
     if (categorie == null) 'categorie': 'Choisissez une catégorie.',
     if (gravite == null) 'gravite': 'Choisissez une gravité.',
     if (quartier == null) 'quartier_id': 'Choisissez un quartier.',
-    if (_erreurDescription() case final erreur?) 'description': erreur,
+    'description': ?_erreurDescription(),
   };
+
+  // `'photo': ?_erreurPhoto()` : le `?` devant la valeur veut dire
+  // "ajoute cette entrée SEULEMENT si la valeur n'est pas null".
+  // Pas d'erreur → pas de clé "photo" dans la Map.
 
   // `if (x case final erreur?)` : "s'il y a une erreur (pas null), appelle-la
   // erreur et ajoute-la". Une seule ligne par champ, une seule clé.

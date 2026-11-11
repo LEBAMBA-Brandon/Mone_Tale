@@ -1,5 +1,6 @@
 import 'package:tala/data/models/nouveau_collecteur.dart';
 import 'package:tala/data/models/utilisateur.dart';
+import 'package:tala/data/models/modification_compte.dart';
 import 'package:tala/data/repositories/signalement_repository.dart';
 import 'package:tala/data/services/api_exception.dart';
 import 'package:tala/data/services/utilisateur_service.dart';
@@ -72,6 +73,33 @@ class UtilisateurRepository {
       _collecteurs = List.unmodifiable(liste);
     }
     return cree;
+  }
+
+  /// Admin : modifie le compte d'un collecteur (`PATCH /api/users/{id}`).
+  /// Seuls les champs changés sont envoyés.
+  Future<Utilisateur> modifierCollecteur(
+    int id,
+    ModificationCompte modification,
+  ) async {
+    // Vérification dans le téléphone d'abord (pas de requête inutile).
+    final erreurs = modification.valider();
+    if (erreurs.isNotEmpty) throw ApiException.validationLocale(erreurs);
+
+    final ancien = await getCollecteur(id);
+    // L'API ne renvoie pas le compteur : on garde l'ancien.
+    final modifie = (await _service.modifierUtilisateur(
+      id,
+      modification,
+    )).copyWith(nombreSignalements: ancien.nombreSignalements);
+
+    // Met à jour la liste en cache (la liste des collecteurs sera juste).
+    if (_date != null) {
+      final liste = <Utilisateur>[
+        for (final u in _collecteurs) u.id == id ? modifie : u,
+      ]..sort(_parNom);
+      _collecteurs = List.unmodifiable(liste);
+    }
+    return modifie;
   }
 
   /// Supprime un collecteur.

@@ -17,6 +17,7 @@ class StockageLocalService {
   final GetStorage _boite;
 
   static const String _cleTheme = 'tala.theme';
+  static const String _cleNotifications = 'tala.notifications';
 
   /// À appeler UNE seule fois au démarrage, avant runApp().
   /// Ouvre la "boîte" GetStorage partagée par StockageLocalService
@@ -43,6 +44,26 @@ class StockageLocalService {
       await _boite.write(_cleTheme, preference.valeurStockee);
     } catch (erreur) {
       debugPrint('Écriture GetStorage impossible ($_cleTheme) : $erreur');
+    }
+  }
+
+  /// L'utilisateur accepte-t-il les notifications ?
+  /// Par défaut : NON. On ne les active jamais sans son accord.
+  bool lireNotificationsActives() {
+    try {
+      return _boite.read<bool>(_cleNotifications) ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> enregistrerNotificationsActives(bool actives) async {
+    try {
+      await _boite.write(_cleNotifications, actives);
+    } catch (erreur) {
+      debugPrint(
+        'Écriture GetStorage impossible ($_cleNotifications) : $erreur',
+      );
     }
   }
 }

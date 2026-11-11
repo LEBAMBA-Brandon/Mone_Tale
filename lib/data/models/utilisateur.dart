@@ -49,15 +49,13 @@ class Utilisateur {
   bool get estAdmin => role == Role.admin;
   bool get estCollecteur => role == Role.collecteur;
 
-  /// "Nom Prénom" (le nom d'abord, comme sur les documents officiels),
-  /// ou l'e-mail si les deux sont vides.
+  /// "Prénom Nom", ou l'email si le nom est vide.
   String get nomEtPrenom {
-    final texte = '$nom $prenom'.trim();
-    return texte.isEmpty ? email : texte;
+    final complet = '$nom $prenom'.trim();
+    return complet.isEmpty ? 'Sans nom' : complet;
   }
 
-  /// Initiales pour l'avatar, dans le même ordre (ex : "MJ" pour
-  /// Mba Jean), ou "?" si inconnu.
+  /// Initiales pour l'avatar (ex : "JM"), ou "?" si inconnu.
   String get initiales {
     final lettres = [
       nom,
@@ -98,12 +96,6 @@ class Utilisateur {
       nombreSignalements: nombreSignalements ?? this.nombreSignalements,
     );
   }
-
-  @override
-  bool operator ==(Object other) => other is Utilisateur && other.id == id;
-
-  @override
-  int get hashCode => id.hashCode;
 
   @override
   String toString() => 'Utilisateur($id, $nomEtPrenom, ${role.valeurApi})';

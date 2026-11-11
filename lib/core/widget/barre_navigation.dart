@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tala/core/theme/app_responsive.dart';
 
-/// Un onglet de la barre de navigation.
+/// Un onglet de la navigation.
 class OngletNavigation {
   const OngletNavigation({
     required this.libelle,
@@ -20,61 +20,106 @@ class OngletNavigation {
   final int? compteur;
 }
 
-/// Barre de navigation JAUNE en bas de l'écran (couleurs dans app_theme).
+/// Navigation ADAPTATIVE de tala : elle change de forme selon la largeur.
 ///
-/// La MÊME barre sert au collecteur (3 onglets) et à l'admin (4 onglets) :
-/// seule la liste [onglets] change.
+/// - Téléphone (< 1024 px) : barre JAUNE en bas (NavigationBar).
+/// - Ordinateur / grand écran (≥ 1024 px) : barre JAUNE sur le CÔTÉ
+///   gauche (NavigationRail). Le contenu prend alors toute la largeur
+///   restante, au lieu d'une barre étirée sur 1500 px avec 4 icônes
+///   perdues au milieu.
+///
+/// C'est le principe "Material adaptive" de Google : même app, même code,
+/// mais la navigation se place là où elle est la plus pratique.
+///
 /// ```dart
-/// BarreNavigation(
+/// NavigationAdaptative(
+///   onglets: [...],
 ///   indexActif: controller.onglet.value,
 ///   onChange: controller.changerOnglet,
-///   onglets: const [
-///     OngletNavigation(libelle: 'Mes signalements', icone: AppIcons.signalements, iconeActive: AppIcons.signalementsActif),
-///     OngletNavigation(libelle: 'Ajouter', icone: AppIcons.ajouter, iconeActive: AppIcons.ajouterActif),
-///     OngletNavigation(libelle: 'Compte', icone: AppIcons.compte, iconeActive: AppIcons.compteActif),
-///   ],
+///   child: IndexedStack(...),
 /// )
 /// ```
-class BarreNavigation extends StatelessWidget {
-  const BarreNavigation({
+class NavigationAdaptative extends StatelessWidget {
+  const NavigationAdaptative({
     super.key,
     required this.onglets,
     required this.indexActif,
     required this.onChange,
+    required this.child,
   });
 
   final List<OngletNavigation> onglets;
   final int indexActif;
   final ValueChanged<int> onChange;
 
+  /// Contenu de l'onglet actif.
+  final Widget child;
+
   @override
   Widget build(BuildContext context) {
-    // Écran minuscule : seul l'onglet actif garde son texte, sinon les
-    // 4 libellés de l'admin se chevaucheraient.
-    final minuscule = context.tailleEcran == TailleEcran.minuscule;
+    final taille = context.tailleEcran;
 
-    return NavigationBar(
-      selectedIndex: indexActif,
-      onDestinationSelected: onChange,
-      labelBehavior: minuscule
-          ? NavigationDestinationLabelBehavior.onlyShowSelected
-          : NavigationDestinationLabelBehavior.alwaysShow,
-      destinations: [
-        for (final onglet in onglets)
-          NavigationDestination(
-            tooltip: onglet.libelle,
-            label: onglet.libelle,
-            icon: _avecCompteur(Icon(onglet.icone), onglet.compteur),
-            selectedIcon: _avecCompteur(
-              Icon(onglet.iconeActive),
-              onglet.compteur,
+    // ---------- Grand écran : barre sur le côté ----------
+    if (taille == TailleEcran.large) {
+      return Scaffold(
+        body: Row(
+          children: [
+            NavigationRail(
+              selectedIndex: indexActif,
+              onDestinationSelected: onChange,
+              // Libellés à côté des icônes : il y a la place.
+              extended: context.largeurEcran >= 1280,
+              labelType: context.largeurEcran >= 1280
+                  ? NavigationRailLabelType.none
+                  : NavigationRailLabelType.all,
+              groupAlignment: -0.9, // onglets en haut
+              destinations: [
+                for (final onglet in onglets)
+                  NavigationRailDestination(
+                    icon: _avecCompteur(Icon(onglet.icone), onglet.compteur),
+                    selectedIcon: _avecCompteur(
+                      Icon(onglet.iconeActive),
+                      onglet.compteur,
+                    ),
+                    label: Text(onglet.libelle),
+                  ),
+              ],
             ),
-          ),
-      ],
+            // Expanded : le contenu prend TOUTE la largeur restante.
+            Expanded(child: child),
+          ],
+        ),
+      );
+    }
+
+    // ---------- Téléphone / tablette : barre en bas ----------
+    return Scaffold(
+      body: child,
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: indexActif,
+        onDestinationSelected: onChange,
+        // Écran minuscule : seul l'onglet actif garde son texte, sinon les
+        // 4 libellés de l'admin se chevaucheraient.
+        labelBehavior: taille == TailleEcran.minuscule
+            ? NavigationDestinationLabelBehavior.onlyShowSelected
+            : NavigationDestinationLabelBehavior.alwaysShow,
+        destinations: [
+          for (final onglet in onglets)
+            NavigationDestination(
+              tooltip: onglet.libelle,
+              label: onglet.libelle,
+              icon: _avecCompteur(Icon(onglet.icone), onglet.compteur),
+              selectedIcon: _avecCompteur(
+                Icon(onglet.iconeActive),
+                onglet.compteur,
+              ),
+            ),
+        ],
+      ),
     );
   }
 
-  Widget _avecCompteur(Widget icone, int? compteur) {
+  static Widget _avecCompteur(Widget icone, int? compteur) {
     if (compteur == null || compteur <= 0) return icone;
     return Badge(
       label: Text(compteur > 99 ? '99+' : '$compteur'),

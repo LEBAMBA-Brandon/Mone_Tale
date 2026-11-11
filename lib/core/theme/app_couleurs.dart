@@ -14,13 +14,13 @@ import 'package:flutter/material.dart';
 /// (couleurs tala). Sinon le changement de thème ne s'appliquera pas.
 abstract final class AppCouleurs {
   // ---------- Thème clair : couleurs foncées ----------
-  static const Color vertFonce = Color(0xFF2E7D32);
-  static const Color vertFonceConteneur = Color(0xFFC8E6C9);
-  static const Color surVertFonceConteneur = Color(0xFF0B3D0E);
+  static const Color vertFonce = Color(0xFFF9A825);
+  static const Color vertFonceConteneur = Color(0xFFFFF3C4);
+  static const Color surVertFonceConteneur = Color(0xFF4A3F00);
 
-  static const Color jauneFonce = Color(0xFFF9A825);
-  static const Color jauneFonceConteneur = Color(0xFFFFF3C4);
-  static const Color surJauneFonceConteneur = Color(0xFF3D2E00);
+  static const Color jauneFonce = Color(0xFF2E7D32);
+  static const Color jauneFonceConteneur = Color(0xFFC8E6C9);
+  static const Color surJauneFonceConteneur = Color(0xFF0B3D0E);
 
   static const Color rougeFonce = Color(0xFFC62828);
   static const Color rougeFonceConteneur = Color(0xFFFFDAD6);
@@ -29,12 +29,12 @@ abstract final class AppCouleurs {
   static const Color blanc = Color(0xFFFFFFFF);
 
   // ---------- Thème sombre : couleurs claires ----------
-  static const Color vertClair = Color(0xFF81C784);
-  static const Color vertClairConteneur = Color(0xFF1E4D21);
+  static const Color vertClair = Color(0xFFFFF176);
+  static const Color vertClairConteneur = Color(0xFF4A3F00);
   static const Color surVertClair = Color(0xFF0B2E0D);
 
-  static const Color jauneClair = Color(0xFFFFF176);
-  static const Color jauneClairConteneur = Color(0xFF4A3F00);
+  static const Color jauneClair = Color(0xFF81C784);
+  static const Color jauneClairConteneur = Color(0xFF1E4D21);
 
   static const Color rougeClair = Color(0xFFEF9A9A);
   static const Color rougeClairConteneur = Color(0xFF8C1D18);

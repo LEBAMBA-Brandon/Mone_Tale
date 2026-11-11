@@ -103,14 +103,6 @@ class Signalement {
   String get nomQuartier => quartier?.nom ?? 'Quartier inconnu';
   String get nomAuteur => auteur?.nomEtPrenom ?? 'Auteur inconnu';
 
-  /// Deux signalements sont égaux s'ils ont le même id.
-  /// Utile pour savoir quel marqueur est sélectionné sur la carte.
-  @override
-  bool operator ==(Object other) => other is Signalement && other.id == id;
-
-  @override
-  int get hashCode => id.hashCode;
-
   @override
   String toString() => 'Signalement($id, ${categorie.valeurApi}, $nomQuartier)';
 }

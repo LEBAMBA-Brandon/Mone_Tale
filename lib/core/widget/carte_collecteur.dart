@@ -45,7 +45,8 @@ class CarteCollecteur extends StatelessWidget {
                     ),
                     const SizedBox(height: AppEspacements.xxs),
                     Text(
-                      collecteur.email,
+                      // E-mail masqué (donnée personnelle).
+                      AppFormats.emailMasque(collecteur.email),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: discret,
